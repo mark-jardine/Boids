@@ -21,12 +21,12 @@ public class AppPanel extends JPanel implements ActionListener {
 
     public AppPanel() {
         this.setPreferredSize(new Dimension(PANEL_WIDTH, PANEL_HEIGHT));
-        this.setBackground(Color.black);
+        //this.setBackground(Color.black);
     }
 
     @Override
     public void paintComponent(Graphics g) {
-//        super.paintComponent(g);
+        super.paintComponent(g);
         Graphics2D g2d = (Graphics2D) g;
 
         RenderingHints hints = new RenderingHints(RenderingHints.KEY_ANTIALIASING

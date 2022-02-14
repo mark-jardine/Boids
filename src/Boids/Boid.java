@@ -8,7 +8,7 @@ import java.util.Random;
 //contain instances of individual boids
 public class Boid {
     final static int MAX_INSTANCES = 200; //max number of boids that can be active
-    public static ArrayList<Boid> activeBoids;
+    public static ArrayList<Boid> activeBoids = new ArrayList<>();
     private int xVel, yVel; //velocities (in x-axis and y-axis)
     private int xPos, yPos; //x and y co-ordinates
     private static Random r = new Random();
@@ -16,8 +16,9 @@ public class Boid {
     public Boid() {
         xPos = r.nextInt(AppPanel.PANEL_WIDTH);
         yPos = r.nextInt(AppPanel.PANEL_HEIGHT);
-        xVel = r.nextInt(30);
-        yVel = r.nextInt(30);
+        xVel = r.nextInt(3);
+        yVel = r.nextInt(3);
+        activeBoids.add(this);
     }
 
     public Boid(int _xPos, int _yPos) { //just declare co-ords
@@ -60,43 +61,20 @@ public class Boid {
         return yPos;
     }
 
-    public void move(){
-        this.xPos += this.xVel;
-        this.yPos += this.yVel;
+    public void move() {
+
+        if (this.getxPos() < AppPanel.PANEL_WIDTH && this.getxPos() > 0)
+            this.xPos += this.xVel;
+        else {
+            this.setxVel(this.xVel * -1);
+        } //invert if horizontal boundary reached
+
+        if (this.getyPos() < AppPanel.PANEL_HEIGHT && this.getyPos() > 0)
+            this.yPos += this.yVel;
+        else this.setyVel(this.yVel * -1); //invert if vertical boundary reached
     }
 
-
-  /*  public static Triangle_Shape[] spawn(int quantity) { //return array of Triangle_Shape obj -> co-ords of each point in the triangle for each Boid being spawned
-        Random r = new Random();
-        int x;
-        int y;
-        Triangle_Shape[] triangles = new Triangle_Shape[quantity];
-
-        if ((quantity + activeBoids.size()) < MAX_INSTANCES) {
-            for (int i = 0; i < quantity; i++) {
-                //get random co-ords
-                x = r.nextInt(AppPanel.PANEL_WIDTH);
-                y = r.nextInt(AppPanel.PANEL_HEIGHT);
-
-                //calculate other points in triangle
-                int y1 = y + 16;
-                int x2 = x + 16;
-                int y2 = y + 8;
-
-                triangles[i] = new Triangle_Shape(new Point2D.Double(x, y), new Point2D.Double(x, y1), new Point2D.Double(x2, y2)); //add boid shape to triangle array
-
-
-
-            }
-
-        } else return null;
-
-
-        return triangles;
-    }*/
-
     public static ArrayList<Boid> spawn(int quantity) {
-
         int x;
         int y;
         ArrayList<Boid> boids = new ArrayList<>();
@@ -113,13 +91,3 @@ public class Boid {
     }
 }
 
-
-////shape of boid src-> https://www.delftstack.com/howto/java/java-draw-triangle/
-//class Triangle_Shape extends Path2D.Double {
-//    public Triangle_Shape(Point2D... points) {
-//        moveTo(points[0].getX(), points[0].getY());
-//        lineTo(points[1].getX(), points[1].getY());
-//        lineTo(points[2].getX(), points[2].getY());
-//        closePath();
-//    }
-//}
