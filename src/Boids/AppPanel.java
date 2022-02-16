@@ -2,7 +2,6 @@ package Boids;
 
 import javax.swing.*;
 import java.awt.*;
-import java.awt.desktop.ScreenSleepEvent;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.awt.geom.Ellipse2D;
@@ -21,7 +20,6 @@ public class AppPanel extends JPanel implements ActionListener {
 
     public AppPanel() {
         this.setPreferredSize(new Dimension(PANEL_WIDTH, PANEL_HEIGHT));
-        //this.setBackground(Color.black);
     }
 
     @Override

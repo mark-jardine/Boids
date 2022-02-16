@@ -1,7 +1,5 @@
 package Boids;
 
-import java.awt.geom.Path2D;
-import java.awt.geom.Point2D;
 import java.util.ArrayList;
 import java.util.Random;
 
@@ -63,10 +61,13 @@ public class Boid {
 
     public void move() {
 
-        if (this.getxPos() < AppPanel.PANEL_WIDTH && this.getxPos() > 0)
+        if (this.getxPos() < AppPanel.PANEL_WIDTH && this.getxPos() > 0) {
             this.xPos += this.xVel;
-        else {
+            System.out.println("move inc vel");
+            System.out.println(this.getxPos()+" < "+ AppPanel.PANEL_WIDTH);
+        } else {
             this.setxVel(this.xVel * -1);
+            System.out.println("move dec vel");
         } //invert if horizontal boundary reached
 
         if (this.getyPos() < AppPanel.PANEL_HEIGHT && this.getyPos() > 0)
