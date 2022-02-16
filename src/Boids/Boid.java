@@ -9,7 +9,7 @@ public class Boid {
     public static ArrayList<Boid> activeBoids = new ArrayList<>();
     private int xVel, yVel; //velocities (in x-axis and y-axis)
     private int xPos, yPos; //x and y co-ordinates
-    private static Random r = new Random();
+    private static final Random r = new Random();
 
     public Boid() {
         xPos = r.nextInt(AppPanel.PANEL_WIDTH);
@@ -63,16 +63,21 @@ public class Boid {
 
         if (this.getxPos() < AppPanel.PANEL_WIDTH && this.getxPos() > 0) {
             this.xPos += this.xVel;
-            System.out.println("move inc vel");
-            System.out.println(this.getxPos()+" < "+ AppPanel.PANEL_WIDTH);
+            System.out.println("increase x velocity");
+            System.out.println(this.getxPos() + " < " + AppPanel.PANEL_WIDTH);
         } else {
             this.setxVel(this.xVel * -1);
-            System.out.println("move dec vel");
+            System.out.println("decrease x velocity");
         } //invert if horizontal boundary reached
 
-        if (this.getyPos() < AppPanel.PANEL_HEIGHT && this.getyPos() > 0)
+        if (this.getyPos() < AppPanel.PANEL_HEIGHT && this.getyPos() > 0) {
             this.yPos += this.yVel;
-        else this.setyVel(this.yVel * -1); //invert if vertical boundary reached
+            System.out.println("increase y velocity");
+            System.out.println(this.getyPos() + " < " + AppPanel.PANEL_HEIGHT);
+        } else {
+            this.setyVel(this.yVel * -1);
+            System.out.println("decrease y velocity");
+        }//invert if vertical boundary reached
     }
 
     public static ArrayList<Boid> spawn(int quantity) {
