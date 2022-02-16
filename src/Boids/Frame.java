@@ -12,6 +12,7 @@ public class Frame extends JFrame {
         this.setVisible(true);
         this.pack();
         this.setLocationRelativeTo(null);
+        this.setResizable(false);
     }
 
 

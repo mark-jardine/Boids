@@ -3,7 +3,6 @@ package Boids;
 import java.util.ArrayList;
 import java.util.Random;
 
-//contain instances of individual boids
 public class Boid {
     final static int MAX_INSTANCES = 200; //max number of boids that can be active
     public static ArrayList<Boid> activeBoids = new ArrayList<>();
@@ -14,8 +13,8 @@ public class Boid {
     public Boid() {
         xPos = r.nextInt(AppPanel.PANEL_WIDTH);
         yPos = r.nextInt(AppPanel.PANEL_HEIGHT);
-        xVel = r.nextInt(3);
-        yVel = r.nextInt(3);
+        xVel = 5;
+        yVel = 5;
         activeBoids.add(this);
     }
 
@@ -43,14 +42,6 @@ public class Boid {
         yVel = value;
     }
 
-    public int getxVel() {
-        return xVel;
-    }
-
-    public int getyVel() {
-        return yVel;
-    }
-
     public int getxPos() {
         return xPos;
     }
@@ -61,23 +52,18 @@ public class Boid {
 
     public void move() {
 
-        if (this.getxPos() < AppPanel.PANEL_WIDTH && this.getxPos() > 0) {
-            this.xPos += this.xVel;
-            System.out.println("increase x velocity");
-            System.out.println(this.getxPos() + " < " + AppPanel.PANEL_WIDTH);
-        } else {
-            this.setxVel(this.xVel * -1);
-            System.out.println("decrease x velocity");
-        } //invert if horizontal boundary reached
+        //invert x velocity if horizontal boundary reached
+        if (getxPos() >= AppPanel.PANEL_WIDTH || getxPos() < 0 ) {
+            setxVel(xVel * -1);
+            xPos += xVel;
+        } else xPos += xVel;
 
-        if (this.getyPos() < AppPanel.PANEL_HEIGHT && this.getyPos() > 0) {
-            this.yPos += this.yVel;
-            System.out.println("increase y velocity");
-            System.out.println(this.getyPos() + " < " + AppPanel.PANEL_HEIGHT);
-        } else {
-            this.setyVel(this.yVel * -1);
-            System.out.println("decrease y velocity");
-        }//invert if vertical boundary reached
+        //invert y velocity if vertical boundary reached
+        if (getyPos() >= AppPanel.PANEL_HEIGHT || getyPos() < 0) {
+            setyVel(yVel * -1);
+            yPos+=yVel;
+        } else yPos += yVel;
+
     }
 
     public static ArrayList<Boid> spawn(int quantity) {
