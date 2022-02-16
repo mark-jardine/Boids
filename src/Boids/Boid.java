@@ -1,5 +1,6 @@
 package Boids;
 
+import java.awt.*;
 import java.util.ArrayList;
 import java.util.Random;
 
@@ -9,6 +10,7 @@ public class Boid {
     private int xVel, yVel; //velocities (in x-axis and y-axis)
     private int xPos, yPos; //x and y co-ordinates
     private static final Random r = new Random();
+    private final Color boidColour = Color.getHSBColor(r.nextFloat(),0.6f, 0.75f);//random HSB value
 
     public Boid() {
         xPos = r.nextInt(AppPanel.PANEL_WIDTH);
@@ -32,6 +34,10 @@ public class Boid {
         this.xVel = _xVel;
         this.yVel = _yVel;
         activeBoids.add(this);
+    }
+
+    public Color getColour(){
+        return this.boidColour;
     }
 
     public void setxVel(int value) {

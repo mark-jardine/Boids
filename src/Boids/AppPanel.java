@@ -11,10 +11,9 @@ import java.util.ArrayList;
 public class AppPanel extends JPanel implements ActionListener {
     public final static int PANEL_WIDTH = 1100;
     public final static int PANEL_HEIGHT = 750;
-    public final static int NUM_BOIDS = 10;
+    public final static int NUM_BOIDS = 100;
     ArrayList<Boid> boids = Boid.spawn(NUM_BOIDS);
     Timer timer;
-    boolean running = false;
 
 
     public AppPanel() {
@@ -32,9 +31,12 @@ public class AppPanel extends JPanel implements ActionListener {
                 , RenderingHints.VALUE_ANTIALIAS_ON);
         g2d.setRenderingHints(hints);
         //g2d.draw(new Ellipse2D.Double(20,20,30,30));
+
+
         for (Boid b : boids) {
             Ellipse2D.Double boidShape = new Ellipse2D.Double(b.getxPos(), b.getyPos(), 30, 30);
             g2d.draw(boidShape);
+            g2d.setPaint(b.getColour());
             g2d.fill(boidShape);
             b.move();
         }
