@@ -78,19 +78,27 @@ public class Boid {
     private ArrayList<Boid> getLocalBoids(int localDistance) {
         ArrayList<Boid> localBoids = new ArrayList<>();
 
+        for (Boid b : activeBoids) {
+            if (b != this && (Math.abs(b.xPos - this.xPos) <= viewDistance || Math.abs(b.yPos - this.yPos) <= viewDistance)) {
+                localBoids.add(b);
+            }
+        }
+
         return localBoids;
     }
 
     //src: https://www.red3d.com/cwr/boids/ by Craig Reynolds
     private void seperate() { //steer to avoid crowding local boids
 
-        for (Boid b : activeBoids) {
-
-        }
-
     }
 
     private void align() { //steer towards average heading of local boids
+
+        if(getLocalBoids(viewDistance).size() == 0) return; //if no local boids
+
+        for (Boid b : getLocalBoids(viewDistance)) {
+
+        }
 
 
     }
