@@ -80,7 +80,7 @@ public class Boid {
         return boids;
     }
 
-    private ArrayList<Boid> getLocalBoids(int localDistance) {
+    private ArrayList<Boid> getLocalBoids() {
         ArrayList<Boid> localBoids = new ArrayList<>();
 
         for (Boid b : activeBoids) {
@@ -100,7 +100,7 @@ public class Boid {
     private void align() { //steer towards average heading of local boids
 
 
-        int numLocalBoids =getLocalBoids(viewDistance).size() ;
+        int numLocalBoids =getLocalBoids().size() ;
         System.out.println("Number of local boids: "+numLocalBoids);
         if(numLocalBoids == 0) return; //if no local boids
 
@@ -109,7 +109,7 @@ public class Boid {
         double total_x = 0;
         double total_y = 0;
 
-        for (Boid b : getLocalBoids(viewDistance)) {
+        for (Boid b : getLocalBoids()) {
             total_x+=b.xVel;
             total_y+=b.yVel;
         }
