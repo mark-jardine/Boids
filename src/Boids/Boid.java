@@ -3,15 +3,17 @@ package Boids;
 import java.awt.*;
 import java.util.ArrayList;
 import java.util.Random;
+import java.util.Vector;
 
 public class Boid {
     public static ArrayList<Boid> activeBoids = new ArrayList<>();
     public static final int size = 30; //boid width, height dimension
-    private int xVel, yVel; //velocities (in x-axis and y-axis)
+    private double xVel, yVel; //velocities (in x-axis and y-axis)
     private int xPos, yPos; //x and y co-ordinates
     private static final Random r = new Random();
     private final Color boidColour = Color.getHSBColor(r.nextFloat(), 0.6f, 0.75f);//random HSB value
     private static final int viewDistance = 60; //radius of a circle around each boid that defines the area that they can perceive other boids within
+    private static final float alignmentBias = 0.35f; //Strength of alignment between boids
 
     public Boid() {
         xPos = r.nextInt(AppPanel.PANEL_WIDTH - size);
@@ -33,11 +35,11 @@ public class Boid {
         return this.boidColour;
     }
 
-    public void setxVel(int value) {
+    public void setxVel(double value) {
         xVel = value;
     }
 
-    public void setyVel(int value) {
+    public void setyVel(double value) {
         yVel = value;
     }
 
@@ -62,6 +64,9 @@ public class Boid {
             setyVel(yVel * -1);
         }
         yPos += yVel;
+
+        //Allignment
+        align();
 
     }
 
@@ -94,12 +99,28 @@ public class Boid {
 
     private void align() { //steer towards average heading of local boids
 
-        if(getLocalBoids(viewDistance).size() == 0) return; //if no local boids
+
+        int numLocalBoids =getLocalBoids(viewDistance).size() ;
+        System.out.println("Number of local boids: "+numLocalBoids);
+        if(numLocalBoids == 0) return; //if no local boids
+
+        //Get average heading of local boids
+        //(xvel + yvel) * bias
+        double total_x = 0;
+        double total_y = 0;
 
         for (Boid b : getLocalBoids(viewDistance)) {
-
+            total_x+=b.xVel;
+            total_y+=b.yVel;
         }
 
+        Vector2D avgHeading = new Vector2D(
+                total_x/numLocalBoids,
+                total_y/numLocalBoids);
+
+        //Set this boid's heading to avg heading
+        this.setxVel(avgHeading.getX() * alignmentBias);
+        this.setyVel(avgHeading.getY()* alignmentBias);
 
     }
 
