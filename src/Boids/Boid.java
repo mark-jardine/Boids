@@ -99,7 +99,6 @@ public class Boid {
 
     private void align() { //steer towards average heading of local boids
 
-
         int numLocalBoids =getLocalBoids().size() ;
         System.out.println("Number of local boids: "+numLocalBoids);
         if(numLocalBoids == 0) return; //if no local boids
