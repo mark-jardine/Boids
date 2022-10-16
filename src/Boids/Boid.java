@@ -3,23 +3,23 @@ package Boids;
 import java.awt.*;
 import java.util.ArrayList;
 import java.util.Random;
-import java.util.Vector;
 
 public class Boid {
+    //src: https://www.red3d.com/cwr/boids/ by Craig Reynolds
     public static ArrayList<Boid> activeBoids = new ArrayList<>();
     public static final int size = 30; //boid width, height dimension
     private double xVel, yVel; //velocities (in x-axis and y-axis)
-    private int xPos, yPos; //x and y co-ordinates
+    private double xPos, yPos; //x and y co-ordinates
     private static final Random r = new Random();
-    private final Color boidColour = Color.getHSBColor(r.nextFloat(), 0.6f, 0.75f);//random HSB value
-    private static final int viewDistance = 60; //radius of a circle around each boid that defines the area that they can perceive other boids within
-    private static final float alignmentBias = 0.35f; //Strength of alignment between boids
+    private final Color boidColour = Color.BLACK;//random HSB value: Color.getHSBColor(r.nextFloat(), 0.6f, 0.75f)
+    private static final int viewDistance = 40; //radius of a circle around each boid that defines the area that they can perceive other boids within
+    private static final double minSpeed = 2;
 
     public Boid() {
         xPos = r.nextInt(AppPanel.PANEL_WIDTH - size);
         yPos = r.nextInt(AppPanel.PANEL_HEIGHT - size);
-        xVel = r.nextInt(8) + 1; //random x-velocity
-        yVel = r.nextInt(8) + 1; //random y-velocity
+        xVel = -4 + (4 - (-4)) * r.nextDouble(); //random x-velocity
+        yVel = -4 + (4 - (-4)) * r.nextDouble(); //random y-velocity
         activeBoids.add(this);
     }
 
@@ -43,27 +43,29 @@ public class Boid {
         yVel = value;
     }
 
-    public int getxPos() {
+    public void setxPos(double value){xPos = value;}
+
+    public void setyPos(double value){yPos = value;}
+
+    public double getxPos() {
         return xPos;
     }
 
-    public int getyPos() {
+    public double getyPos() {
         return yPos;
     }
 
     public void move() {
 
-        //invert x velocity if horizontal boundary reached
-        if (getxPos() >= AppPanel.PANEL_WIDTH - size || getxPos() < 0) {
-            setxVel(xVel * -1);
-        }
-        xPos += xVel;
+        //invert x position if horizontal boundary reached
+        if(getxPos() >= AppPanel.PANEL_WIDTH-size) setxPos(0);
+        else if (getxPos() < 0) setxPos(AppPanel.PANEL_WIDTH- size);
+        setxPos(getxPos() + xVel + minSpeed) ;
 
-        //invert y velocity if vertical boundary reached
-        if (getyPos() >= AppPanel.PANEL_HEIGHT - size || getyPos() < 0) {
-            setyVel(yVel * -1);
-        }
-        yPos += yVel;
+        //invert u position if horizontal boundary reache
+        if(getyPos() >= AppPanel.PANEL_HEIGHT-size) setyPos(0);
+        else if (getyPos() < 0) setyPos(AppPanel.PANEL_HEIGHT- size);
+        setyPos(getyPos() + yVel + minSpeed);
 
         //Allignment
         align();
@@ -92,7 +94,6 @@ public class Boid {
         return localBoids;
     }
 
-    //src: https://www.red3d.com/cwr/boids/ by Craig Reynolds
     private void seperate() { //steer to avoid crowding local boids
 
     }
@@ -104,7 +105,7 @@ public class Boid {
         if(numLocalBoids == 0) return; //if no local boids
 
         //Get average heading of local boids
-        //(xvel + yvel) * bias
+        //(xvel + yvel)
         double total_x = 0;
         double total_y = 0;
 
@@ -113,13 +114,13 @@ public class Boid {
             total_y+=b.yVel;
         }
 
-        Vector2D avgHeading = new Vector2D(
+        Vector2D desiredVelocity = new Vector2D(
                 total_x/numLocalBoids,
                 total_y/numLocalBoids);
 
         //Set this boid's heading to avg heading
-        this.setxVel(avgHeading.getX() * alignmentBias);
-        this.setyVel(avgHeading.getY()* alignmentBias);
+        this.setxVel(this.xVel + (desiredVelocity.getX()- this.xVel));
+        this.setyVel(this.yVel + (desiredVelocity.getY()- this.yVel));
 
     }
 

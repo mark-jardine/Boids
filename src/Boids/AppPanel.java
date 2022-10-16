@@ -19,7 +19,7 @@ public class AppPanel extends JPanel implements ActionListener {
     public AppPanel() {
         this.setPreferredSize(new Dimension(PANEL_WIDTH, PANEL_HEIGHT));
         this.setBackground(Color.white);
-        timer = new Timer(10, this);
+        timer = new Timer(1, this);
         timer.start();
     }
 
@@ -31,8 +31,6 @@ public class AppPanel extends JPanel implements ActionListener {
         RenderingHints hints = new RenderingHints(RenderingHints.KEY_ANTIALIASING
                 , RenderingHints.VALUE_ANTIALIAS_ON);
         g2d.setRenderingHints(hints);
-        //g2d.draw(new Ellipse2D.Double(20,20,30,30));
-
 
         for (Boid b : boids) { //displaying boids
             Ellipse2D.Double boidShape = new Ellipse2D.Double(b.getxPos(), b.getyPos(), 30, 30);
