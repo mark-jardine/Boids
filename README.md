@@ -7,3 +7,4 @@ I decided to make it to learn more about graphics in Java, and visual simualtion
 - Add obstacle/wall avoidance
 - Fix scaling of separation factor
 - Add more interactivity such as allowing the user to add boids with their cursor, draw obstacles in real-time
+- Implement spacial partitioning system to allow for multithreading to increase performance
