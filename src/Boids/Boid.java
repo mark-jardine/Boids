@@ -11,7 +11,7 @@ public class Boid {
     private double xVel, yVel; //velocities (in x-axis and y-axis)
     private double xPos, yPos; //x and y co-ordinates
     private static final Random r = new Random();
-    private final Color boidColour = Color.getHSBColor(r.nextFloat(), 0.6f, 0.75f);//random HSB value: Color.getHSBColor(r.nextFloat(), 0.6f, 0.75f)
+    private final Color boidColour = Color.getHSBColor(r.nextFloat(), 0.6f, 0.75f);
     private static final int VIEW_DISTANCE = 40; //radius of a circle around each boid that defines the area that they can perceive other boids within
     public static double SEPARATION_FACTOR = 1.;
     public static double ALIGNMENT_FACTOR = 0.05;
@@ -53,22 +53,6 @@ public class Boid {
         // Update position based on velocity
         xPos = (xPos + xVel + BoidPanel.PANEL_WIDTH) % BoidPanel.PANEL_WIDTH;
         yPos = (yPos + yVel + BoidPanel.PANEL_HEIGHT) % BoidPanel.PANEL_HEIGHT;
-
-        // Introduce randomness to velocity
-//        double randomnessFactor = 0.1; // Adjust this value based on desired randomness
-//        xVel += randomnessFactor * (2 * r.nextDouble() - 1); // Random value between -1 and 1
-//        yVel += randomnessFactor * (2 * r.nextDouble() - 1); // Random value between -1 and 1
-
-//        // Handle collisions with walls
-//        if (xPos < 0 || xPos > BoidPanel.PANEL_WIDTH - SIZE) {
-//            // Reverse x velocity to bounce off walls
-//            xVel = -xVel;
-//        }
-//
-//        if (yPos < 0 || yPos > BoidPanel.PANEL_HEIGHT - SIZE) {
-//            // Reverse y velocity to bounce off walls
-//            yVel = -yVel;
-//        }
 
         // Avoid overlapping
         avoidOverlapping();
@@ -182,7 +166,7 @@ public class Boid {
         Vector2D avgVelocity = new Vector2D(avg_xVel, avg_yVel).normalize().scale(MAX_SPEED * ALIGNMENT_FACTOR * 2);
 
         // Adjust the current velocity towards the average velocity without changing magnitude too much
-        double accelerationFactor = 0.1; // Experiment with this value
+        double accelerationFactor = 0.1;
         setxVel(getxVel() + accelerationFactor * (avgVelocity.getX() - getxVel()));
         setyVel(getyVel() + accelerationFactor * (avgVelocity.getY() - getyVel()));
     }
@@ -214,7 +198,7 @@ public class Boid {
         Vector2D desiredVelocity = new Vector2D(desiredX, desiredY).normalize().scale(MAX_SPEED * COHESION_FACTOR * 2);
 
         // Adjust the current velocity towards the desired velocity without changing magnitude too much
-        double accelerationFactor = 0.1; // Experiment with this value
+        double accelerationFactor = 0.1;
         setxVel(getxVel() + accelerationFactor * (desiredVelocity.getX() - getxVel()));
         setyVel(getyVel() + accelerationFactor * (desiredVelocity.getY() - getyVel()));
     }
